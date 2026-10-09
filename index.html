@@ -566,14 +566,14 @@ function onScroll(){ticking=false;const h=html.scrollHeight-innerHeight,y=scroll
 addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
 addEventListener("resize",onScroll,{passive:true});
 $("#top").onclick=()=>scrollTo({top:0});
-/* form: sends the message to Telegram via Netlify Function (token stays on server) */
+/* form: sends the message to Telegram via Cloudflare _worker.js (token stays on server) */
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),3500)}
 $("#form").onsubmit=async e=>{e.preventDefault();const f=e.target,btn=f.querySelector("button[type=submit]"),n=$("#fn").value.trim(),m=$("#fe").value.trim(),g=$("#fm").value.trim();
   if(!n||!g||!/^\S+@\S+\.\S+$/.test(m))return toast(L=="en"?"Please fill all fields correctly":"সবগুলো ঘর সঠিকভাবে পূরণ করুন");
   const text="📩 New Portfolio Message\n\n👤 Name: "+n+"\n📧 Email: "+m+"\n\n💬 Message:\n"+g;
   btn.disabled=true;
   try{
-    const r=await fetch("/.netlify/functions/send-message",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:n,email:m,message:g})});
+    const r=await fetch("/api/send-message",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:n,email:m,message:g})});
     const j=await r.json();
     if(!r.ok||!j.ok)throw new Error(j.error||"failed");
     f.reset();toast(L=="en"?"Message sent successfully!":"মেসেজ সফলভাবে পাঠানো হয়েছে!");
