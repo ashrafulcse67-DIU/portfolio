@@ -163,7 +163,7 @@ footer{padding:2rem 0;text-align:center;color:var(--muted);font-size:.9rem;borde
 .btn i,.chip i,.float i{min-width:1em;text-align:center}
 @media(min-width:480px){.ctl{gap:.5rem}}
 @media(min-width:640px){:root{--nh:72px}.nav{gap:1rem}}
-@media(min-width:768px){
+@media all{
  .avatar-wrap{display:block;position:relative;width:min(25rem,100%);aspect-ratio:1;margin:auto}
  .avatar{position:absolute;inset:0;width:auto;margin:0}
  .floats{display:contents}
@@ -204,6 +204,25 @@ footer{padding:2rem 0;text-align:center;color:var(--muted);font-size:.9rem;borde
  .chip:hover{transform:none;border-color:var(--line);box-shadow:none}
  .social a:hover{color:inherit;background:var(--card);transform:none;box-shadow:none}
  .btn:active,.chip:active,.social a:active,button.cert:active,button.gcard:active,button.vcard:active{transform:scale(.97)}
+}
+/* phone + tablet hero: floating badges around the pic (same as PC), compact so pic, name, role and buttons fit on the first screen */
+@media(max-width:980px){
+ .hero{padding:calc(var(--nh) + 1.5rem) 0 2.5rem}
+ .hero .wrap{gap:1.5rem}
+ .hero .avatar-wrap{width:min(20rem,100%)}
+}
+@media(max-width:767px){
+ .hero{padding:calc(var(--nh) + 1.1rem) 0 2rem}
+ .hero .wrap{gap:1.1rem}
+ .hero .avatar-wrap{width:min(15.5rem,60vw)}
+ .float{padding:.35rem .65rem;font-size:.72rem;border-radius:12px;gap:.35rem}
+ .hero h1{margin:.7rem 0 .3rem}
+ .hero .role{min-height:1.5em}
+ .hero .sub{margin:.3rem auto 1rem;font-size:.9rem;line-height:1.55}
+ .hero .cta{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+ .hero .cta .btn{justify-content:center;min-width:0;padding:.7rem .8rem;font-size:.88rem}
+ .hero .cta .btn:first-child{grid-column:1/-1}
+ .hero .social{margin-top:1rem}
 }
 /* VIDEO MODAL: full-screen black -> caption on top (with X) -> video below */
 #vm{background:#000;backdrop-filter:none;-webkit-backdrop-filter:none;padding:0}
