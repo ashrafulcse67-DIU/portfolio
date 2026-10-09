@@ -205,6 +205,14 @@ footer{padding:2rem 0;text-align:center;color:var(--muted);font-size:.9rem;borde
  .social a:hover{color:inherit;background:var(--card);transform:none;box-shadow:none}
  .btn:active,.chip:active,.social a:active,button.cert:active,button.gcard:active,button.vcard:active{transform:scale(.97)}
 }
+/* video modal: Drive's phone player reserves a toolbar strip, so give the player extra height on phones */
+#vmp{aspect-ratio:var(--ar,16/9)}
+#vmp[data-r]{width:min(100%,calc((100vh - 14rem)*var(--rn)));width:min(100%,calc((100dvh - 14rem)*var(--rn)));margin-inline:auto}
+@media(max-width:640px){
+ #vm{padding:.5rem}.mbox-video{width:100%}.mbox-video .mhead{padding:.9rem 1rem .5rem}.mbox-video .mbody{padding:.25rem .6rem 1rem}
+ #vmp{aspect-ratio:var(--ar,4/3);border-radius:12px}
+}
+@media(max-height:500px) and (orientation:landscape){#vmp:not([data-r]){aspect-ratio:auto;height:calc(100vh - 11rem);height:calc(100dvh - 11rem)}}
 /* FIX jitter: the spinning avatar ring overflowed the page by up to 12px while rotating, so mobile Chrome kept resizing the viewport (fixed header/modal shook) */
 .hero{overflow-x:clip}
 @supports not (overflow:clip){.hero{overflow:hidden}}
@@ -459,9 +467,9 @@ const vid=v=>{const e=v.embed||"";return (e.match(/\/d\/([\w-]+)/)||e.match(/[?&
 const vthumb=v=>{if(v.thumb)return v.thumb;const id=vid(v);if(!id)return "";return v.type=="drive"?"https://drive.google.com/thumbnail?id="+id+"&sz=w800":v.type=="youtube"?"https://img.youtube.com/vi/"+id+"/hqdefault.jpg":""};
 function openVideo(i){const v=D.videos[i];if(!v||!v.embed)return;let p,o;
   if(v.type=="drive"){p=`<iframe src="${esc(drive(v.embed))}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;o="https://drive.google.com/file/d/"+vid(v)+"/view"}
-  else if(v.type=="file"){p=`<video src="${esc(v.embed)}" controls autoplay></video>`;o=v.embed}
+  else if(v.type=="file"){p=`<video src="${esc(v.embed)}" controls autoplay playsinline></video>`;o=v.embed}
   else{p=`<iframe src="${esc(v.embed)}${v.embed.includes("?")?"&":"?"}autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;o="https://www.youtube.com/watch?v="+vid(v)}
-  $("#vmt").textContent=x(v);$("#vmp").innerHTML=p;$("#vmo").href=o;$("#vmo").lastChild.textContent=L=="en"?" Open in new tab":" নতুন ট্যাবে খুলুন";showModal($("#vm"))}
+  $("#vmt").textContent=x(v);const vp=$("#vmp"),rt=String(v.ratio||"").split(/[:\/]/).map(Number);if(rt.length==2&&rt[0]>0&&rt[1]>0){vp.style.setProperty("--ar",rt[0]+"/"+rt[1]);vp.style.setProperty("--rn",rt[0]/rt[1]);vp.dataset.r=1}else{vp.style.removeProperty("--ar");vp.style.removeProperty("--rn");delete vp.dataset.r}vp.innerHTML=p;$("#vmo").href=o;$("#vmo").lastChild.textContent=L=="en"?" Open in new tab":" নতুন ট্যাবে খুলুন";showModal($("#vm"))}
 function closeVideo(){hideModal($("#vm"));$("#vmp").innerHTML=""}
 const ST={live:{en:"Live",bn:"লাইভ"},progress:{en:"In Progress",bn:"চলমান"},future:{en:"Future Work",bn:"ভবিষ্যৎ কাজ"}};
 const thumb=(img,ic,st)=>`<div class="thumb">${st&&ST[st]?`<span class="st ${st}">${ST[st][L]}</span>`:""}<i class="fa-solid ${ic}"></i>${img?`<img src="${esc(img)}" alt="" loading="lazy" onerror="this.remove()">`:""}</div>`;
