@@ -214,8 +214,13 @@ footer{padding:2rem 0;text-align:center;color:var(--muted);font-size:.9rem;borde
 #vm .mhead .chip{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);color:#fff;font-size:1.1rem}
 #vm .mbody{display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 max(.5rem,env(safe-area-inset-right)) max(.75rem,env(safe-area-inset-bottom)) max(.5rem,env(safe-area-inset-left))}
 #vm #vmo{display:none}
-#vmp{aspect-ratio:var(--ar,16/9);width:min(100%,1200px,calc((100vh - 6.5rem)*var(--rn,1.7778)));width:min(100%,1200px,calc((100dvh - 6.5rem)*var(--rn,1.7778)));margin:0 auto;border-radius:12px;background:#000}
-@media(max-width:640px){#vmp{aspect-ratio:var(--ar,4/3);width:min(100%,calc((100dvh - 6.5rem)*var(--rn,1.3333)));border-radius:8px}}
+/* player box: always exact 16:9 (YouTube style), top-aligned right under the caption.
+   Drive adds a toolbar strip above the picture; the iframe is made taller and pulled up so that strip is clipped and the picture fills the box */
+#vm .mbody{align-items:flex-start}
+#vmp{--strip:56px;position:relative;overflow:hidden;aspect-ratio:var(--ar,16/9);width:min(100%,1200px,calc((100vh - 6.5rem)*var(--rn,1.7778)));width:min(100%,1200px,calc((100dvh - 6.5rem)*var(--rn,1.7778)));margin:0 auto;border-radius:12px;background:#000}
+#vmp iframe{inset:auto;left:0;top:calc(var(--strip)*-1);width:100%;height:calc(100% + var(--strip))}
+#vmp video{inset:0}
+@media(max-width:640px){#vmp{--strip:48px;border-radius:8px}}
 /* FIX jitter: the spinning avatar ring overflowed the page by up to 12px while rotating, so mobile Chrome kept resizing the viewport (fixed header/modal shook) */
 .hero{overflow-x:clip}
 @supports not (overflow:clip){.hero{overflow:hidden}}
