@@ -19,10 +19,19 @@
 :root{--pad:clamp(1rem,4vw,4rem);--maxw:1180px;--nh:64px;color-scheme:light}html[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nh) + 12px);-webkit-text-size-adjust:100%;text-size-adjust:100%}@media(hover:hover) and (pointer:fine){html{scrollbar-gutter:stable}}
 body{font-family:'Plus Jakarta Sans','Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);line-height:1.7;overflow-x:hidden;overflow-x:clip;transition:background .4s,color .4s;-webkit-tap-highlight-color:transparent}body.lock{overflow:hidden}
-a{color:inherit;text-decoration:none}ul{list-style:none}img{max-width:100%}a,button{touch-action:manipulation}
+a{color:inherit;text-decoration:none}ul{list-style:none}img{max-width:100%;-webkit-backface-visibility:hidden;backface-visibility:hidden;transform:translateZ(0)}a,button{touch-action:manipulation}
 :focus-visible{outline:2px solid var(--c);outline-offset:3px}
+
+/* ===== GPU ACCELERATION & FLICKER FIXES ===== */
+header, .card, .btn, .chip, .social a, .avatar, .float, .badge, .marq, .poster, .vbox, .cthumb {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
 .wrap{width:100%;max-width:calc(var(--maxw) + 2*var(--pad));margin-inline:auto;padding-left:max(var(--pad),env(safe-area-inset-left));padding-right:max(var(--pad),env(safe-area-inset-right))}
-.grad{background:linear-gradient(120deg,var(--a),var(--b) 55%,var(--c));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shine 6s linear infinite}
+.grad{background:linear-gradient(120deg,var(--a),var(--b) 55%,var(--c));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shine 6s linear infinite;will-change:background-position}
 @keyframes shine{to{background-position:200% center}}
 #bar{position:fixed;top:0;left:0;height:3px;width:100%;transform:scaleX(0);transform-origin:0 50%;will-change:transform;background:linear-gradient(90deg,var(--a),var(--b),var(--c));z-index:200;box-shadow:0 0 12px var(--a)}
 /* background aurora */
@@ -34,7 +43,7 @@ a{color:inherit;text-decoration:none}ul{list-style:none}img{max-width:100%}a,but
 @keyframes float{50%{transform:translate(40px,-50px) scale(1.1)}}
 .aurora::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 10%,transparent 70%)}
 /* nav */
-header{position:fixed;top:0;left:0;right:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--nav);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+header{position:fixed;top:0;left:0;right:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--nav);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);transform:translate3d(0,0,0)}
 .nav{height:var(--nh);display:flex;align-items:center;justify-content:space-between;gap:.5rem}
 .logo{font-weight:800;font-size:clamp(.875rem,4.4vw,1.35rem);line-height:44px;flex:0 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .links{display:flex;gap:clamp(1rem,1.6vw,1.6rem);font-weight:600;font-size:.93rem}
@@ -57,7 +66,7 @@ header{position:fixed;top:0;left:0;right:0;z-index:100;padding-top:env(safe-area
 .badge b{width:8px;height:8px;border-radius:50%;background:#22c55e;box-shadow:0 0 0 0 #22c55e;animation:ping 2s infinite}
 @keyframes ping{70%{box-shadow:0 0 0 9px transparent}}
 h1{overflow-wrap:break-word;font-size:clamp(1.9rem,1.2rem + 5.2vw,5.2rem);font-weight:800;line-height:1.05;letter-spacing:-.03em;margin:1.2rem 0 .8rem}
-.role{font-size:clamp(1.05rem,.9rem + 1.6vw,1.6rem);font-weight:600;line-height:1.35;min-height:1.8em;overflow-wrap:anywhere;text-wrap:balance}
+.role{font-size:clamp(1.05rem,.9rem + 1.6vw,1.6rem);font-weight:600;line-height:1.35;min-height:2.2em;contain:layout;overflow-wrap:anywhere;text-wrap:balance}
 .role span{color:var(--c)}.role::after{content:"|";margin-left:2px;color:var(--a);animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .sub{color:var(--muted);max-width:56ch;margin:.5rem 0 2rem;font-size:clamp(.95rem,.9rem + .3vw,1.05rem)}
@@ -69,12 +78,12 @@ h1{overflow-wrap:break-word;font-size:clamp(1.9rem,1.2rem + 5.2vw,5.2rem);font-w
 .avatar-wrap{display:flex;flex-direction:column;align-items:center;gap:1.5rem;width:100%;min-width:0}
 .avatar{position:relative;width:min(19rem,72vw);aspect-ratio:1;margin:auto;flex:none}
 .floats{display:flex;flex-wrap:wrap;justify-content:center;gap:.6rem;max-width:100%}
-.avatar::before{content:"";position:absolute;inset:-6px;border-radius:32% 68% 60% 40%/45% 40% 60% 55%;background:conic-gradient(from 0deg,var(--a),var(--b),var(--c),var(--a));animation:spin 8s linear infinite,morph 9s ease-in-out infinite;filter:blur(1px)}
-.avatar .img{position:absolute;inset:0;border-radius:32% 68% 60% 40%/45% 40% 60% 55%;overflow:hidden;background:var(--bg2);animation:morph 9s ease-in-out infinite;display:grid;place-items:center;font-size:5rem;font-weight:800}
+.avatar::before{content:"";position:absolute;inset:-6px;border-radius:32% 68% 60% 40%/45% 40% 60% 55%;background:conic-gradient(from 0deg,var(--a),var(--b),var(--c),var(--a));animation:spin 8s linear infinite,morph 9s ease-in-out infinite;filter:blur(1px);will-change:transform}
+.avatar .img{position:absolute;inset:0;border-radius:32% 68% 60% 40%/45% 40% 60% 55%;overflow:hidden;background:var(--bg2);animation:morph 9s ease-in-out infinite;display:grid;place-items:center;font-size:5rem;font-weight:800;will-change:transform}
 .avatar img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes morph{50%{border-radius:60% 40% 35% 65%/55% 60% 40% 45%}}
-.float{position:static;padding:.5rem .9rem;border-radius:14px;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(12px);font-weight:700;font-size:.85rem;box-shadow:var(--glow);display:flex;gap:.5rem;align-items:center;white-space:nowrap}
+.float{position:static;padding:.5rem .9rem;border-radius:14px;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-weight:700;font-size:.85rem;box-shadow:var(--glow);display:flex;gap:.5rem;align-items:center;white-space:nowrap;transform:translate3d(0,0,0)}
 .float i{color:var(--c)}.f1{top:6%;left:-8%}.f2{bottom:14%;right:-8%;animation-delay:-2s}.f3{bottom:-2%;left:8%;animation-delay:-3.5s}
 @keyframes bob{50%{transform:translateY(-12px)}}
 /* marquee */
@@ -87,10 +96,10 @@ section.s{padding:clamp(3.5rem,8vw,7rem) 0}
 .head{text-align:center;margin-bottom:clamp(2rem,5vw,3.5rem)}.head.gap{margin-top:clamp(3rem,8vw,5rem)}
 .head h2{font-size:clamp(1.6rem,1rem + 3vw,3rem);overflow-wrap:break-word;font-weight:800;letter-spacing:-.02em}
 .head p{color:var(--muted);margin-top:.5rem}
-.head::after{content:"";display:block;width:70px;height:4px;border-radius:9px;margin:1rem auto 0;background:linear-gradient(90deg,var(--a),var(--c))}
+.head::after{content:"";display:block;width:70px;height:4px;border-radius:99px;margin:1rem auto 0;background:linear-gradient(90deg,var(--a),var(--c))}
 .grid{display:grid;gap:clamp(1rem,2.5vw,1.5rem)}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
 /* cards with spotlight */
-.card{position:relative;border-radius:24px;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s}
+.card{position:relative;border-radius:24px;border:1px solid var(--line);background:var(--card);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);overflow:hidden;transition:transform .35s,border-color .35s,box-shadow .35s;transform:translate3d(0,0,0)}
 .card::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(58,134,255,.16),transparent 45%);opacity:0;transition:.3s;pointer-events:none}
 .card:hover{transform:translateY(-6px);border-color:var(--a);box-shadow:var(--glow)}.card:hover::before{opacity:1}
 .pad{padding:clamp(1.1rem,3.5vw,1.6rem)}
@@ -112,7 +121,7 @@ section.s{padding:clamp(3.5rem,8vw,7rem) 0}
 .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s}
 .card:hover .thumb img{transform:scale(1.1)}
 .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,var(--bg),transparent 55%);opacity:.5}
-.st{position:absolute;top:12px;left:12px;z-index:2;padding:.25rem .8rem;border-radius:99px;font-size:.75rem;font-weight:700;color:#fff;backdrop-filter:blur(8px);background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.3)}.st.live{background:#16a34a}.st.progress{background:#d97706}.st.future{background:#6d28d9}
+.st{position:absolute;top:12px;left:12px;z-index:2;padding:.25rem .8rem;border-radius:99px;font-size:.75rem;font-weight:700;color:#fff;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.3)}.st.live{background:#16a34a}.st.progress{background:#d97706}.st.future{background:#6d28d9}
 .acts{display:flex;flex-wrap:wrap;gap:.7rem;margin-top:1.2rem}.acts .btn{padding:.6rem 1.1rem;font-size:.85rem}
 .vbox{aspect-ratio:16/9;background:#000;display:grid;place-items:center;color:#8aa0c4;font-size:2.5rem;position:relative;overflow:hidden}
 .vbox>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .6s}.vcard:hover .vbox>img{transform:scale(1.06)}
@@ -159,7 +168,7 @@ footer{padding:2rem 0;text-align:center;color:var(--muted);font-size:.9rem;borde
 #toast.show{transform:translate(-50%,0)}
 .rv{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}.rv.in{opacity:1;transform:none;will-change:auto}
 .card.rv.in{transition:transform .35s,border-color .35s,box-shadow .35s}
-/* ===== RESPONSIVE LAYER (breakpoints: 480 / 640=sm / 768=md / 1024=lg / 1280=xl / 1536=2xl) ===== */
+/* ===== RESPONSIVE LAYER ===== */
 .btn i,.chip i,.float i{min-width:1em;text-align:center}
 @media(min-width:480px){.ctl{gap:.5rem}}
 @media(min-width:640px){:root{--nh:72px}.nav{gap:1rem}}
@@ -355,52 +364,37 @@ const D = {
     {en:"Tools",bn:"টুলস",icon:"fa-screwdriver-wrench",items:["GitHub","CodeBlocks","VS Code","MySQL","Flex","Bison","Microsoft Office"]},
     {en:"Teamwork",bn:"টিমওয়ার্ক",icon:"fa-people-group",items:["Team Collaboration","Problem Solving","Project Coordination"]},
     {en:"AI",bn:"এআই",icon:"fa-robot",items:["AI Automation","n8n"]} ],
-  /* FUTURE PROJECT TEMPLATE: copy one object, paste at the end (add a comma before it) */
-  /* status: "live" | "progress" | "future"  (shows a badge on the card) */
   projects:[
     {title:"Own Portfolio",status:"live",en:"This personal portfolio website with dark/light mode and English/Bengali support.",bn:"ডার্ক/লাইট মোড এবং ইংরেজি/বাংলা সাপোর্ট সহ আমার ব্যক্তিগত পোর্টফোলিও ওয়েবসাইট।",tech:["HTML","CSS","JavaScript"],image:"images/own.jpg",live:"#home",code:""},
     {title:"DIU STUMATE — Student Support Web App",status:"live",en:"Brings DIU academic resources together: Website, Portal, BLC, Results, Question Bank, Cover Page and Hub.",bn:"ডিআইইউ-এর ওয়েবসাইট, পোর্টাল, BLC, রেজাল্ট, প্রশ্নব্যাংক, কভার পেজ ও হাব এক জায়গায়।",tech:["Web App","HTML","CSS","JavaScript"],image:"images/stumate.jpg",live:"https://drive.google.com/file/d/1iEc9K1C1FpYecYh_dxLtA6NWSruhYxCE/view",code:""},
     {title:"Expensio",status:"progress",en:"Currently in progress. Details coming soon.",bn:"বর্তমানে কাজ চলছে। বিস্তারিত শীঘ্রই আসছে।",tech:[],image:"images/expensio.jpg",live:"",code:""},
     {title:"Rootforge",status:"progress",en:"Currently in progress. Details coming soon.",bn:"বর্তমানে কাজ চলছে। বিস্তারিত শীঘ্রই আসছে।",tech:[],image:"images/rootforge.jpg",live:"",code:""},
     {title:"BisonBank",status:"future",en:"Planned for the future. Details coming soon.",bn:"ভবিষ্যতে করার পরিকল্পনা রয়েছে। বিস্তারিত শীঘ্রই আসছে।",tech:[],image:"images/bisonbank.jpg",live:"",code:""}
-    /* FUTURE PROJECT TEMPLATE: add a comma after the last project, then paste a new {title:"",status:"progress",en:"",bn:"",tech:["",""],image:"images/x.jpg",live:"",code:""} */
   ],
-  /* CLIENT PROJECTS: same format as projects. Copy a line to add more clients (add a comma between). */
   clients:[
     {title:"Client 1",en:"Client project details coming soon.",bn:"ক্লায়েন্ট প্রজেক্টের বিস্তারিত শীঘ্রই আসছে।",tech:[],image:"",live:"",code:""}
   ],
   experience:[
     {en:"Marketing Lead",bn:"মার্কেটিং লিড",co:"StratifyX Global",per:"2026 – Present",
      badge:{en:"Promoted",bn:"প্রমোশন পেয়েছি"},
-     poster:"images/promotion.jpg",// add your poster here, e.g. "images/promotion.jpg" (delete this line to hide the poster space)
-    
+     poster:"images/promotion.jpg",
      de:"Handled digital marketing campaigns, promotional graphics, brand announcements, content research and video editing, bridging creative media with digital strategy.",
-     db:"ডিজিটাল মার্কেটিং ক্যাম্পেইন, প্রোমোশনাল গ্রাফিক্স, ব্র্যান্ড ঘোষণা, কনটেন্ট রিসার্চ ও ভিডিও এডিটিং পরিচালনা।"},
+     db:"ডিজিটাল মার্কেটিং ক্যাম্পেইন, প্রোমোশনাল গ্রাফিক্স, ব্র্যান্ড ঘোষণা, কনটент রিসার্চ ও ভিডিও এডিটিং পরিচালনা।"},
     {en:"Senior Marketing Executive",bn:"সিনিয়র মার্কেটিং এক্সিকিউটিভ",co:"A2Z Gadget",per:"2025 – Present",
      de:"Managing digital promotions, online brand activities and technology-focused content.",
      db:"ডিজিটাল প্রোমোশন, অনলাইন ব্র্যান্ড কার্যক্রম ও প্রযুক্তিভিত্তিক কনটেন্ট ব্যবস্থাপনা।"} ],
-  /* Each group card opens a popup with all its certificates.
-     To add a certificate: put the file in its folder, then add one line {name:"...", file:"..."} inside items:[ ].
-     file can be .jpg .png or .pdf */
   certs:[
     {name:"DIU Certificates", items:[
        {name:"PromptBattle 2025", file:"certificates/diu/promptbattle.jpg"},
-       {name:"NBTC Participation", file:"certificates/diu/nbtc.jpg"},
-       //{name:"NBTC Participation", file:"certificates/diu/nbtc.jpg"}, (In Future DIU Certificates Add) 
+       {name:"NBTC Participation", file:"certificates/diu/nbtc.jpg"}
     ]},
     {name:"HP Certificates", items:[
       {name:"HP LIFE — AI for Beginners", file:"certificates/hp/1.jpg"},
       {name:"HP LIFE — AI for Business Professionals", file:"certificates/hp/2.jpg"},
-      {name:"HP LIFE — Effective Business Websites", file:"certificates/hp/3.jpg"},
-      //{name:"HP LIFE — AI for Beginners", file:"certificates/hp/1.jpg"},
+      {name:"HP LIFE — Effective Business Websites", file:"certificates/hp/3.jpg"}
     ]},
-    {name:"Microsoft Certificates", items:[
-      // {name:"Microsoft Office", file:"certificates/microsoft/ms1.jpg"},
-    ]}
+    {name:"Microsoft Certificates", items:[]}
   ],
-  /* GRAPHICS GALLERY: each card opens a popup with all its designs.
-     cover = card image (optional; if empty the first design is used)
-     To add a poster: put the image in its folder, then add one line {name:"...", file:"..."} inside items:[ ] */
   gallery:[
     {en:"Announcement Posters",bn:"অ্যানাউন্সমেন্ট পোস্টার",cover:"",items:[
       {name:"1", file:"images/announcement/1.jpg"},
@@ -414,7 +408,6 @@ const D = {
       {name:"9", file:"images/announcement/9.jpg"},
       {name:"10", file:"images/announcement/10.jpg"},
       {name:"11", file:"images/announcement/11.jpg"}
-      // {name:"Poster title", file:"images/announcement/12.jpg"},
     ]},
     {en:"Content Posters",bn:"কনটেন্ট পোস্টার",cover:"",items:[
       {name:"AI Data Center", file:"images/content/p1.jpg"},
@@ -428,28 +421,22 @@ const D = {
       {name:"Google Gemini Hack", file:"images/content/p9.jpg"},
       {name:"Gemini 4 Argon", file:"images/content/p10.jpg"},
       {name:"Birthday Poster", file:"images/content/p11.jpg"},
-      {name:"NEURO MARKETING", file:"images/content/p12.jpg"},
-      // {name:"Poster title", file:"images/content/p10.jpg"},
+      {name:"NEURO MARKETING", file:"images/content/p12.jpg"}
     ]}
   ],
-  /* FUTURE VIDEO: {en:"Reel",bn:"রিল",tool:"CapCut",type:"youtube",embed:"https://www.youtube.com/embed/ID"} ; type "file" for videos/clip.mp4 */
-  /* type:"drive" -> paste the Google Drive share link in embed. Optional thumb:"images/video1.jpg" = your own cover image (most reliable) */
   videos:[
     {en:"The Rise Of Lionel Messi In The Legacy Of Football",bn:"ফুটবলের ইতিহাসে লিওনেল মেসির উত্থান",tool:"CapCut Pro PC",type:"drive",embed:"1RKTUilxkYdOxsw0FeZx06yYzdfh0UpKf", thumb:"images/messi.jpg"},
-    {en:"Education Of Bangladesh",bn:"বাংলাদেশের শিক্ষা ব্যবস্থা",tool:"Premiere Pro",type:"drive",embed:"1CPY4ga1NKfKTFL9_4WghBAgMqzGGcUUR", thumb:"images/edu.jpg"},
+    {en:"Education Of Bangladesh",bn:"বাংলাদেশের শিক্ষা ব্যবস্থা",tool:"Premiere Pro",type:"drive",embed:"1CPY4ga1NKfKTFL9_4WghBAgMqzGGcUUR", thumb:"images/edu.jpg"}
   ]
 };
 /* =================== ENGINE =================== */
 const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let L="en",T="dark"; try{L=localStorage.getItem("l")||"en";T=localStorage.getItem("t")||"dark"}catch(e){}
 const x=o=>o[L], html=document.documentElement;
-/* Google Drive: paste the normal share link (or just the file ID) */
 const drive=u=>{const m=u.match(/\/d\/([\w-]+)/)||u.match(/[?&]id=([\w-]+)/);return "https://drive.google.com/file/d/"+(m?m[1]:u.trim())+"/preview"};
-/* modals: scroll lock + focus restore */
 const openM=new Set();let lastFocus=null;
 function showModal(el){lastFocus=document.activeElement;el.hidden=false;openM.add(el);document.body.classList.add("lock");el.querySelector(".mbody").scrollTop=0;el.querySelector(".chip").focus({preventScroll:true})}
 function hideModal(el){if(el.hidden)return;el.hidden=true;openM.delete(el);if(!openM.size)document.body.classList.remove("lock");if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true})}
-/* video helpers: thumbnail + player */
 const vid=v=>{const e=v.embed||"";return (e.match(/\/d\/([\w-]+)/)||e.match(/[?&]id=([\w-]+)/)||e.match(/embed\/([\w-]+)/)||e.match(/[?&]v=([\w-]+)/)||e.match(/youtu\.be\/([\w-]+)/)||[])[1]||""};
 const vthumb=v=>{if(v.thumb)return v.thumb;const id=vid(v);if(!id)return "";return v.type=="drive"?"https://drive.google.com/thumbnail?id="+id+"&sz=w800":v.type=="youtube"?"https://img.youtube.com/vi/"+id+"/hqdefault.jpg":""};
 function openVideo(i){const v=D.videos[i];if(!v||!v.embed)return;let p,o;
@@ -488,7 +475,6 @@ function render(){
   $("#langTxt").textContent=L=="en"?"BN":"EN";
   observe(); tilt();
 }
-/* typing effect: grapheme-safe (Bengali conjuncts), pauses in background tabs, static under reduced-motion */
 const seg=window.Intl&&Intl.Segmenter?new Intl.Segmenter(undefined,{granularity:"grapheme"}):null;
 const graphemes=t=>seg?Array.from(seg.segment(t),g=>g.segment):Array.from(t);
 const typedEl=$("#typed"),reduceMotion=matchMedia("(prefers-reduced-motion: reduce)");
@@ -499,16 +485,13 @@ function type(){const w=graphemes(x(D.roles[ri%D.roles.length]));
   ci+=del?-1:1; typedEl.textContent=w.slice(0,ci).join("");
   let d=del?40:85; if(!del&&ci>=w.length){del=true;d=1400} else if(del&&ci<=0){del=false;ri++;d=350}
   setTimeout(type,d)}
-/* reveal + counters */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);
   e.target.querySelectorAll("[data-count]").forEach(count)}}),{threshold:.08,rootMargin:"0px 0px -6% 0px"});
 function observe(){document.querySelectorAll(".rv:not(.in)").forEach(el=>io.observe(el))}
 function count(el){const end=+el.dataset.count,dec=end%1?2:0;let s=null;
   const f=t=>{s=s||t;const p=Math.min((t-s)/1200,1);el.textContent=(end*p).toFixed(dec);if(p<1)requestAnimationFrame(f)};requestAnimationFrame(f)}
-/* spotlight */
 function tilt(){document.querySelectorAll(".card").forEach(c=>{if(c._s)return;c._s=1;
   c.addEventListener("pointermove",e=>{const r=c.getBoundingClientRect();c.style.setProperty("--mx",e.clientX-r.left+"px");c.style.setProperty("--my",e.clientY-r.top+"px")})})}
-/* theme / lang / menu */
 function setTheme(){html.dataset.theme=T;$("#themeIco").className="fa-solid "+(T=="dark"?"fa-sun":"fa-moon")}
 $("#themeBtn").onclick=()=>{T=T=="dark"?"light":"dark";setTheme();try{localStorage.setItem("t",T)}catch(e){}};
 $("#langBtn").onclick=()=>{L=L=="en"?"bn":"en";try{localStorage.setItem("l",L)}catch(e){};ci=0;del=false;render()};
@@ -517,7 +500,6 @@ $("#burger").onclick=()=>setMenu(!$("#links").classList.contains("open"));
 $("#links").onclick=e=>{if(e.target.closest("a"))setMenu(false)};
 document.addEventListener("click",e=>{if(!e.target.closest("header"))setMenu(false)});
 addEventListener("resize",()=>{if(innerWidth>1023)setMenu(false)},{passive:true});
-/* scroll: progress, back-to-top, active link */
 const navLinks=[...document.querySelectorAll(".links a")].map(a=>[a,$(a.getAttribute("href"))]);
 let ticking=false;
 function onScroll(){ticking=false;const h=html.scrollHeight-innerHeight,y=scrollY;
@@ -526,7 +508,6 @@ function onScroll(){ticking=false;const h=html.scrollHeight-innerHeight,y=scroll
 addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
 addEventListener("resize",onScroll,{passive:true});
 $("#top").onclick=()=>scrollTo({top:0});
-/* form: sends the message to Telegram via Netlify Function (token stays on server) */
 function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),3500)}
 $("#form").onsubmit=async e=>{e.preventDefault();const f=e.target,btn=f.querySelector("button[type=submit]"),n=$("#fn").value.trim(),m=$("#fe").value.trim(),g=$("#fm").value.trim();
   if(!n||!g||!/^\S+@\S+\.\S+$/.test(m))return toast(L=="en"?"Please fill all fields correctly":"সবগুলো ঘর সঠিকভাবে পূরণ করুন");
@@ -539,7 +520,6 @@ $("#form").onsubmit=async e=>{e.preventDefault();const f=e.target,btn=f.querySel
     f.reset();toast(L=="en"?"Message sent successfully!":"মেসেজ সফলভাবে পাঠানো হয়েছে!");
   }catch(err){toast(L=="en"?"Failed to send. Please try again.":"পাঠানো যায়নি, আবার চেষ্টা করুন।")}
   btn.disabled=false};
-/* certificates popup */
 function openCert(i){const g=D.certs[i],it=g.items||[];$("#cmt").textContent=g.name;$("#cmg").className="grid g3";
   $("#cmg").innerHTML=it.length?it.map(c=>{const f=encodeURI(c.file),pdf=/\.pdf$/i.test(c.file);
     return `<a class="card" href="${f}" target="_blank" rel="noopener"><div class="cthumb"><i class="fa-solid ${pdf?"fa-file-pdf":"fa-image"}"></i>${pdf?"":`<img src="${f}" alt="" loading="lazy" onerror="this.remove()">`}</div><div style="padding:.9rem 1rem"><h3 style="font-size:.92rem;margin:0">${esc(c.name)}</h3></div></a>`}).join(""):`<p>${L=="en"?"No certificates added yet.":"এখনো কোনো সার্টিফিকেট যোগ করা হয়নি।"}</p>`;
