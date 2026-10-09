@@ -1,17 +1,25 @@
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+
+    // Jodi request /api/send-message path-e na jay, tahote normal website assets/files load korbe
+    if (url.pathname !== "/api/send-message") {
+      return env.ASSETS.fetch(request);
+    }
+
     if (request.method !== "POST") {
       return new Response(JSON.stringify({ ok: false, error: "Method not allowed" }), {
         status: 405,
         headers: { "Content-Type": "application/json" }
       });
     }
+
     try {
       const { name, email, message } = await request.json();
       const text = `📩 New Portfolio Message\n\n👤 Name: ${name}\n📧 Email: ${email}\n\n💬 Message:\n${message}`;
-      const url = `https://api.telegram.org/bot${env.TG_TOKEN}/sendMessage`;
+      const telegramUrl = `https://api.telegram.org/bot${env.TG_TOKEN}/sendMessage`;
       
-      const res = await fetch(url, {
+      const res = await fetch(telegramUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ chat_id: env.TG_CHAT, text })
