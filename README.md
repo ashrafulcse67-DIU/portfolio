@@ -32,7 +32,6 @@ A modern, responsive personal portfolio website showcasing my background, techni
 Portfolio/
 ├── index.html
 ├── .gitignore
-├── netlify.toml
 ├── _worker.js
 ├── images/
 │   ├── announcement/
