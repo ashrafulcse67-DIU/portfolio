@@ -64,7 +64,7 @@ To use it in production:
 
 1. Connect your repository to **Cloudflare Pages**.
 2. Ensure `_worker.js` is in the root directory so Cloudflare automatically detects it as a module worker.
-3. Configure any required environment variables or secrets (such as Bot Tokens and Chat IDs) in your **Cloudflare Pages Dashboard under Settings > Environment Variables**.
+3. Configure any required environment variables or secrets in your **Cloudflare Pages Dashboard under Settings > Environment Variables**.
 4. Test the contact form after deployment.
 
 **Security note:** Never commit API tokens, bot tokens, passwords, or other secrets to GitHub. Always store them securely as environment variables in Cloudflare's project settings.
