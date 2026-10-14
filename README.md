@@ -40,7 +40,7 @@ Google Fonts
 Cloudflare Workers (_worker.js) for backend contact-form handling and API requests
 
 ## 📁 Project Structure
-Plaintext
+
 Portfolio/
 ├── index.html
 ├── .gitignore
