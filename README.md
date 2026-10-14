@@ -40,7 +40,7 @@ Google Fonts
 Cloudflare Workers (_worker.js) for backend contact-form handling and API requests
 
 ## 📁 Project Structure
-
+```
 Portfolio/
 ├── index.html
 ├── .gitignore
@@ -55,6 +55,7 @@ Portfolio/
 │   └── microsoft/
 ├── videos/
 └── cv-ashraful.pdf
+```
 
 ## 🚀 Run Locally
 This is primarily a static website, so no frontend build step is required for local viewing.
