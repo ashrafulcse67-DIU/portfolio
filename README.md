@@ -1,34 +1,46 @@
-# Md. Ashraful Islam — Personal Portfolio
-
+## Md. Ashraful Islam — Personal Portfolio
 A modern, responsive personal portfolio website showcasing my background, technical skills, projects, professional experience, certificates, creative work, and contact information.
 
-## ✨ Features
+✨ Features
+Responsive design for desktop, tablet, and mobile screens
 
-- **Responsive design** for desktop, tablet, and mobile screens
-- **Dark and light themes** with a theme toggle
-- **English and Bangla language support**
-- **Animated introduction** with rotating professional roles
-- **About section** for education and personal information
-- **Skills section** covering development, marketing, design, video editing, and CS fundamentals
-- **Project showcase** with technology tags, status labels, and project links
-- **Experience and certificate sections**
-- **Creative gallery** for design work and promotional content
-- **Video portfolio** with embedded Google Drive or other supported video sources
-- **Contact form** connected to a Netlify Function
-- **Smooth scrolling, animated cards, and interactive UI details**
+Dark and light themes with a theme toggle
 
-## 🛠️ Built With
+English and Bangla language support
 
-- HTML5
-- CSS3
-- Vanilla JavaScript
-- Font Awesome
-- Google Fonts
-- Netlify Functions (for contact-form handling)
+Animated introduction with rotating professional roles
 
-## 📁 Project Structure
+About section for education and personal information
 
-```text
+Skills section covering development, marketing, design, video editing, and CS fundamentals
+
+Project showcase with technology tags, status labels, and project links
+
+Experience and certificate sections
+
+Creative gallery for design work and promotional content
+
+Video portfolio with embedded Google Drive or other supported video sources
+
+Contact form powered by Cloudflare Workers
+
+Smooth scrolling, animated cards, and interactive UI details
+
+🛠️ Built With
+HTML5
+
+CSS3
+
+Vanilla JavaScript
+
+Font Awesome
+
+Google Fonts
+
+Cloudflare Workers (_worker.js) for backend contact-form handling and API requests
+
+📁 Project Structure
+Plaintext
 Portfolio/
 ├── index.html
 ├── .gitignore
@@ -43,69 +55,69 @@ Portfolio/
 │   └── microsoft/
 ├── videos/
 └── cv-ashraful.pdf
-```
+🚀 Run Locally
+This is primarily a static website, so no frontend build step is required for local viewing.
 
-## 🚀 Run Locally
+Download or clone this repository.
 
-This is primarily a static website, so no frontend build step is required.
+Open the Portfolio folder.
 
-1. Download or clone this repository.
-2. Open the `Portfolio` folder.
-3. Open `index.html` in your browser.
+Open index.html in your browser.
 
-For a more realistic local web-server experience, use the **Live Server** extension in Visual Studio Code and select **Open with Live Server**.
+For a more realistic local web-server experience, use the Live Server extension in Visual Studio Code and select Open with Live Server.
 
-> The contact form uses a Netlify Function. It will not work when `index.html` is opened directly as a local file unless the function is served through a compatible environment.
+The contact form submissions handled via _worker.js require a compatible worker environment (such as Wrangler local development) to test full form functionality locally.
 
-## 📬 Contact Form Deployment
-
-The contact form sends requests to:
-
-```text
-/.netlify/functions/send-message
-```
+📬 Contact Form & Backend (_worker.js)
+The contact form sends requests directly to the Cloudflare Worker script (_worker.js), which processes the form data and forwards messages (e.g., to your Telegram bot or email).
 
 To use it in production:
 
-1. Deploy the project to Netlify.
-2. Keep the function inside `netlify/functions/`.
-3. Configure any required secrets or environment variables in Netlify's site settings, based on the implementation in `netlify/functions/send-message.js`.
-4. Test the form after deployment.
+Connect your repository to Cloudflare Pages.
 
-**Security note:** Never commit API tokens, bot tokens, passwords, or other secrets to GitHub. Store them as environment variables in your hosting provider.
+Ensure _worker.js is in the root directory so Cloudflare automatically detects it as a module worker.
 
-## 🎨 Customization
+Configure any required environment variables or secrets (such as Bot Tokens and Chat IDs) in your Cloudflare Pages Dashboard under Settings > Environment Variables.
 
-The main website content is configured in the JavaScript data object inside `index.html`.
+Test the contact form after deployment.
+
+Security note: Never commit API tokens, bot tokens, passwords, or other secrets to GitHub. Always store them securely as environment variables in Cloudflare's project settings.
+
+🎨 Customization
+The main website content is configured in the JavaScript data object inside index.html.
 
 You can update:
 
-- Name, email, phone, location, and profile image
-- Social profile links
-- Skills and technology tags
-- Projects and their live/demo/source links
-- Experience and certificates
-- Gallery items and video embeds
-- English and Bangla text
+Name, email, phone, location, and profile image
 
-Place images in the appropriate folders and make sure the paths in `index.html` match the actual filenames.
+Social profile links
 
-## 🌐 Deployment
+Skills and technology tags
 
-You can host the static portfolio using **GitHub Pages**, **Netlify**, or another static hosting service.
+Projects and their live/demo/source links
 
-- **GitHub Pages:** suitable for the static frontend; the Netlify contact function will not run on GitHub Pages.
-- **Netlify:** suitable for the static frontend and the included Netlify Function.
+Experience and certificates
 
-## 👨‍💻 Author
+Gallery items and video embeds
 
-**Md. Ashraful Islam**  
+English and Bangla text
+
+Place images in the appropriate folders and make sure the paths in index.html match the actual filenames.
+
+🌐 Deployment
+This project is optimized for deployment on Cloudflare Pages:
+
+Cloudflare Pages: Fully supports both the static frontend assets and the backend logic inside _worker.js for handling contact form submissions seamlessly.
+
+👨‍💻 Author
+Md. Ashraful Islam
+
 CSE Undergraduate | Web Developer | Digital Marketing | Creative Design
 
-- GitHub: [ashrafulcse67-DIU](https://github.com/ashrafulcse67-DIU)
-- LinkedIn: [md-ashraful120](https://www.linkedin.com/in/md-ashraful120)
-- Facebook: [ashraful120official](https://www.facebook.com/ashraful120official)
+GitHub: ashrafulcse67-DIU
 
----
+LinkedIn: md-ashraful120
+
+Facebook: ashraful120official
 
 If you find this project useful, feel free to ⭐ the repository.
