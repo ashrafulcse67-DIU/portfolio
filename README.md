@@ -1,7 +1,7 @@
 ## Md. Ashraful Islam — Personal Portfolio
 A modern, responsive personal portfolio website showcasing my background, technical skills, projects, professional experience, certificates, creative work, and contact information.
 
-✨ Features
+## ✨ Features
 Responsive design for desktop, tablet, and mobile screens
 
 Dark and light themes with a theme toggle
@@ -26,7 +26,7 @@ Contact form powered by Cloudflare Workers
 
 Smooth scrolling, animated cards, and interactive UI details
 
-🛠️ Built With
+## 🛠️ Built With
 HTML5
 
 CSS3
@@ -39,7 +39,7 @@ Google Fonts
 
 Cloudflare Workers (_worker.js) for backend contact-form handling and API requests
 
-📁 Project Structure
+## 📁 Project Structure
 Plaintext
 Portfolio/
 ├── index.html
@@ -55,7 +55,8 @@ Portfolio/
 │   └── microsoft/
 ├── videos/
 └── cv-ashraful.pdf
-🚀 Run Locally
+
+## 🚀 Run Locally
 This is primarily a static website, so no frontend build step is required for local viewing.
 
 Download or clone this repository.
@@ -68,7 +69,7 @@ For a more realistic local web-server experience, use the Live Server extension 
 
 The contact form submissions handled via _worker.js require a compatible worker environment (such as Wrangler local development) to test full form functionality locally.
 
-📬 Contact Form & Backend (_worker.js)
+## 📬 Contact Form & Backend (_worker.js)
 The contact form sends requests directly to the Cloudflare Worker script (_worker.js), which processes the form data and forwards messages (e.g., to your Telegram bot or email).
 
 To use it in production:
@@ -83,7 +84,7 @@ Test the contact form after deployment.
 
 Security note: Never commit API tokens, bot tokens, passwords, or other secrets to GitHub. Always store them securely as environment variables in Cloudflare's project settings.
 
-🎨 Customization
+## 🎨 Customization
 The main website content is configured in the JavaScript data object inside index.html.
 
 You can update:
@@ -104,12 +105,12 @@ English and Bangla text
 
 Place images in the appropriate folders and make sure the paths in index.html match the actual filenames.
 
-🌐 Deployment
+## 🌐 Deployment
 This project is optimized for deployment on Cloudflare Pages:
 
 Cloudflare Pages: Fully supports both the static frontend assets and the backend logic inside _worker.js for handling contact form submissions seamlessly.
 
-👨‍💻 Author
+## 👨‍💻 Author
 Md. Ashraful Islam
 
 CSE Undergraduate | Web Developer | Digital Marketing | Creative Design
